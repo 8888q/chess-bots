@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/chess-bots/static/css/main.75fa576e.css",
+    "main.js": "/chess-bots/static/js/main.b26806f5.js",
+    "static/js/787.cdd3bbf7.chunk.js": "/chess-bots/static/js/787.cdd3bbf7.chunk.js",
+    "index.html": "/chess-bots/index.html",
+    "main.75fa576e.css.map": "/chess-bots/static/css/main.75fa576e.css.map",
+    "main.b26806f5.js.map": "/chess-bots/static/js/main.b26806f5.js.map",
+    "787.cdd3bbf7.chunk.js.map": "/chess-bots/static/js/787.cdd3bbf7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.75fa576e.css",
+    "static/js/main.b26806f5.js"
+  ]
+}
