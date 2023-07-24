@@ -3,7 +3,28 @@ import React, {useState} from 'react'
 import { Chess, Move, Square } from 'chess.js';
 import Chessground from "@react-chess/chessground";
 
-export function RandomBot() {
+type BotProps = {
+    moveFunction: (board: Chess) => Move,
+    width?: number,
+    height?: number
+}
+
+export function RandomBot(board: Chess) {
+    const moves: Move[] = board.moves({verbose: true});
+    const move: Move = moves[Math.floor(Math.random() * moves.length)];
+
+    return move;   
+}
+
+export function AlphabeticalBot(board: Chess) {
+    let moves: Move[] = board.moves({verbose: true});
+    moves = moves.sort(((a: Move, b: Move) => (a.san < b.san ? -1 : 1)));
+    const move: Move = moves[0];
+
+    return move;    
+}
+
+export function GenericBot(props: BotProps): JSX.Element {
     const [fen, setFen] = useState("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
     const [dests, setDests] = useState(toDests(new Chess()));
 
@@ -13,8 +34,7 @@ export function RandomBot() {
             chess.move( {from: orig, to: dest} );
         }
         if(chess.isCheckmate()) return;
-        const moves: Move[] = chess.moves({verbose: true});
-        const move: Move = moves[Math.floor(Math.random() * moves.length)];
+        const move: Move = props.moveFunction(chess);
         chess.move(move.san);
         if(chess.isCheckmate()) return;
         setFen(chess.fen());
@@ -23,9 +43,12 @@ export function RandomBot() {
 
     return (
         <div>
-            <Chessground config={{fen: fen, events: {move: makeMove}, movable: {free: false, dests: dests}}}/>
+            <Chessground
+                width={props.width}
+                height={props.height}
+                config={{fen: fen, events: {move: makeMove}, movable: {free: false, dests: dests}}}/>
         </div>
-    )      
+    )   
 }
 
 function toDests(chess: Chess): Map<Square, Square[]> {
