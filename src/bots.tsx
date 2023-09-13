@@ -58,6 +58,10 @@ export function PrinciplesBot(): JSX.Element {
             chess = new Chess(moves[index].after);
             if( chess.isCheckmate() ) return moves[index].san;
         }
+        //get out of check
+        if(board.isCheck()){
+            return moves[0].san;
+        }
         const caps = captures(moves);
         //take [free] pieces
         for( let index in caps ){
@@ -76,14 +80,26 @@ export function PrinciplesBot(): JSX.Element {
             if( !board.isAttacked('c6','w') && !board.get('c6')) return 'Nc6';
         }
         if( board.get('f8').type == 'b' && board.get('f8').color == 'b' ){
-            if( !board.isAttacked('c5','w') && !board.get('c5') ) return 'Bc5';
-            else if( !board.isAttacked('d6','w') && !board.get('d6') ) return 'Bd6';
-            else if( !board.isAttacked('e7','w') && !board.get('e7') ) return 'Be7';
+            if( !board.get('e7') ){
+                if( !board.get('d6') ){
+                    if (!board.get('c5')){
+                        if( !board.isAttacked('c5','w') ) return 'Bc5';
+                    }
+                    else if( !board.isAttacked('d6','w') ) return 'Bd6';
+                }
+                else if( !board.isAttacked('e7','w') ) return 'Be7';
+            }
         }
         if( board.get('c8').type == 'b' && board.get('c8').color == 'b' ){
-            if( !board.isAttacked('f5','w') && !board.get('f5') ) return 'Bf5';
-            else if( !board.isAttacked('e6','w') && !board.get('e6') ) return 'Be6';
-            else if( !board.isAttacked('d7','w') && !board.get('d7') ) return 'Bd7';
+            if( !board.get('d7') ){
+                if( !board.get('e6') ){
+                    if (!board.get('f5')){
+                        if( !board.isAttacked('f5','w') ) return 'Bf5';
+                    }
+                    else if( !board.isAttacked('e6','w') ) return 'Be6';
+                }
+                else if( !board.isAttacked('d7','w') ) return 'Bd7';
+            }
         }
         //castle to safety
         let castlingRights = board.getCastlingRights('b');
