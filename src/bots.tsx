@@ -39,9 +39,9 @@ export function GreedyBot(): JSX.Element {
     function move(board: Chess): string {
         let moves: Move[] = board.moves({verbose: true});
         var candidates: Move[] = captures(moves);
-        if(candidates.length == 0) return moves[Math.floor(Math.random() * moves.length)].san;
+        if(candidates.length == 0) return moves[Math.floor(Math.random() * moves.length)].san; // if there exist no captures, random
     
-        return candidates[0].san;   
+        return candidates[0].san; 
     }
 
     return (
@@ -100,8 +100,6 @@ export function PrinciplesBot(): JSX.Element {
         }
         if(candidates.length == 0) return moves[Math.floor(Math.random() * moves.length)].san;
         return candidates[Math.floor(Math.random() * candidates.length)].san;
-        //moves.sort( ((a: Move, b: Move) => (chess.isAttacked(a.to, 'w') && !chess.isAttacked(b.to, 'w') ? 1 : -1)) )
-        //return moves[0].san;   
     }
 
     return (
@@ -113,7 +111,6 @@ export function RandomBot(): JSX.Element {
     function move(board: Chess): string {
         const moves: Move[] = board.moves({verbose: true});
         const move: Move = moves[Math.floor(Math.random() * moves.length)];
-        console.log(move.san);
     
         return move.san;   
     }
@@ -128,7 +125,7 @@ export function GenericBot(props: BotProps): JSX.Element {
     const [isCheck, setCheck] = useState<boolean | "white" | "black">(false);
     const [dests, setDests] = useState(toDests(new Chess()));
 
-     const chessSize = Math.floor(window.innerHeight*0.7);
+    const chessSize = Math.floor(window.innerHeight*0.7);
 
     function makeMove(orig: string, dest: string){
         let chess = new Chess(fen);
@@ -137,14 +134,14 @@ export function GenericBot(props: BotProps): JSX.Element {
         }
 
         function checkmate(color: boolean | "white" | "black"){
-            setCheck(color);
-            setFen(chess.fen());
-            setDests(new Map());
+            setCheck(color); // highlight king
+            setFen(chess.fen()); // update board
+            setDests(new Map()); // prevent new moves
             setTimeout(() => {
                 setCheck(false);
                 setFen(DEFAULT_POSITION);
                 setDests(toDests(new Chess()));
-            }, 2000);
+            }, 2000); // reset board on game end
         }
 
         if(chess.isCheckmate()) {
@@ -201,6 +198,7 @@ function captures(moves: Move[]): Move[]{
         return candidates;
 }
 
+// Returns all possible destinations for each square
 function toDests(chess: Chess): Map<Square, Square[]> {
     const dests = new Map();
     SQUARES.forEach(s => {
@@ -210,7 +208,7 @@ function toDests(chess: Chess): Map<Square, Square[]> {
     return dests;
   }
 
-  const PIECE_VALUE: Map<PieceSymbol, number> = new Map(
+const PIECE_VALUE: Map<PieceSymbol, number> = new Map(
     [
         ['p', 1],
         ['b', 3],

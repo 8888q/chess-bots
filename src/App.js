@@ -23,23 +23,7 @@ function App() {
                        "principles": <PrinciplesBot/>,
                        "random": <RandomBot/>
                       };
-  const botTextDict = {
-    "alphabetical": 
-        ["Alphabetical Bot",
-         "When transcribing a chess game, there is a specific notation for each move. For example, moving a knight to the square a3 would look like 'Na3'. Does playing the first move alphabetically make for good play?"],
-    "reverseAlphabetical":
-        ["Reverse Alphabetical Bot",
-         "Same as Alphabetical Bot, but choose the move alphabetically last."],
-    "greedy":
-        ["Greedy Bot",
-         "This bot will always capture the most valuable piece it can. If it can't capture a piece, it will make a random move."],
-    "principles":
-        ["Principles Bot",
-         "When learning chess, beginners are often taught many principles to guide their decision making, such as 'Control the center', 'develop your pieces', etc. This bot attempts to follow chess principles according to the current position, but lacks foresight."],
-    "random": 
-        ["Random Bot",
-         "This bot plays a random move out of all legal moves." ]
-  }
+  const botTextDict = require('./descriptions.json');
 
   const handleChange = (event) => {
     setBot(event.target.value);
@@ -82,6 +66,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
